@@ -1,4 +1,4 @@
-一、文件和文件系统
+﻿一、文件和文件系统
 1、什么是文件
   Linux文件
     · 定义：存储在某种设备中的一段数据流
@@ -47,3 +47,38 @@
 三、读写二进制文件
 9、使用pack生成二进制文件 （pack.php）
   使用unpack来解析二进制文件 （unpack.php）
+10、文件指针原理
+    文件指针的定位操作
+    · fseek() - 再文件指针中定位
+    · ftell() - 返回文件指针读/写的位置
+    · rewind() - 倒回文件指针位置
+    · feof - 测试文件指针是否到了文件结束位置
+11、随机读取文件应用
+    · 分析读取特定的二进制文件内容，如纯真IP库、QQ本地消息、图片元数据信息等
+    · 创建特定的二进制文件，如pdf、word、chm等
+    · 对大文件进行切割，如视频切割
+    · 创建自定义的二进制文件，实现自己的独特需求，如设计自己的数据文件。
+
+四、XML、JSON、CSV的操作要点
+12、PHP中XML处理方式比较
+    · DOM：一次性将xml载入内存，内存问题需要注意
+    · SimpleXML：小文件可以选择它，  不支持命名空间
+    · XMLReader：边读边操作，“拉取”模型  （xmlReader.php）
+    · XMLParser：SAX模型是一个“推送”模型
+13、PHP中JSON的处理
+    · json_encode目前只能处理UTF-8编码的数据
+    · JSON_UNESCAPED_UNICODE让JSON更懂中文
+    · 解析出错，看json_last_error()返回的错误
+    · JSON格式是灵活开放的，特殊情况可以用sprintf来自己组装或者解析json字符串 (jsonmy.php)
+14、CSV文件处理
+    · fputcvs
+    · fgetcvs
+
+五、与文件操作相关的封装协议
+15、
+    · fopen('php://stdout','w');
+
+    · STDIN和STDOUT 可以实现命令行输入输出
+    查看文档，lia了解php://,zlib://,ftp://等等流
+六、大文件上传的原理和实现
+    ·
