@@ -1,0 +1,25 @@
+1、哪个是centos7的文件默认格式？
+A.ext3		B.XFS
+C.ext4		D.flv
+
+2、文件打开时，哪个标记是强制使用二进制模式
+A.t		B.w
+C.b		D.r
+
+3、对文件随机读写应用说法错误的是
+A.对大文件进行切割，如视频切割
+B.创建特定的二进制文件，如pdf、word、chm等
+C.创建自定义的二进制文件，实现自己的独特需求，如设计自己的数据文件。
+D.快速的读取全部文件。
+
+4、下面哪个功能可以对XML进行”拉取“处理方式
+A.DOM		B.SimpleXML
+C.XMLReader	D.XMLParser
+
+5、下面对json说法正确的是
+A.json_encode能处理多种编码格式
+B.json不能自己来组装和解析
+C.json_encode能直接保存成中文格式
+D.json_decode解析出错，看json_last_error()返回的错误
+
+6、
