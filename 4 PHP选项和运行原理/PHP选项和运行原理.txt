@@ -1,6 +1,6 @@
-一、介绍SAPI
+﻿一、介绍SAPI
 1、PHP内核架构
-    请求执行  UA->apache（获取其它）->SAPI(mod_php)（或其它）->zend engine->php script
+    请求执行  UA->apache（或者其它）->SAPI(mod_php)（或其它）->zend engine->php script
              |                                                                 |  然后返回
              <-   <-                <-                <-                      <-
 2、PHP SAPI介绍
@@ -54,7 +54,7 @@
 2、线程安全与线程非安全
     · Thread Safe是线程安全，执行时会进行线程（Thread）安全检查，以防止有新要求就启动新线程的执行方式而耗尽资源，Non Thread Safe是非线程安全，在执行时不进行线程（Thread）安全检查。
     · 由于ISAPI是线程执行，所以选择下载php版本的时候需要选择Thread Safe版本的。其它选择NTS版本就行（apache可以选择NTS）。
-
+3、介绍Apache MPM
 4、Select和Epoll网络I/O模型比较
     为什么大访问量下Nginx性能更高？
     · Apache所采用的select网络I/O模型非常低效
@@ -62,6 +62,8 @@
     · Apache进程干的事情多：执行PHP、输出HTML都得干，占用的资源就多（CPU、内存）
 
     比较I/O模型select和epoll
+
+    Apache和Nginx的优缺点？
 
 三、PHP运行原理
 5、PHP运行机制和原理
@@ -98,8 +100,8 @@
 7、PHP的引用
     · 引用不是C的指针
     · 引用允许用两个变量来指向同一个内容
-    · 引用左的第二件事是用引用传递变量
-    · 引用左的第三件事是引用返回 (&_user.php)
+    · 引用做的第二件事是用引用传递变量
+    · 引用做的第三件事是引用返回 (&_user.php)
 
 四、PHP配置选项
 PHP选项之“display_errors” //是否将错误信息作为输出的一部分显示到屏幕，或者对用户隐藏不显示
