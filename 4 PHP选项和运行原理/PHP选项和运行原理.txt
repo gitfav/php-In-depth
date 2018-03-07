@@ -1,0 +1,111 @@
+一、介绍SAPI
+1、PHP内核架构
+    请求执行  UA->apache（获取其它）->SAPI(mod_php)（或其它）->zend engine->php script
+             |                                                                 |  然后返回
+             <-   <-                <-                <-                      <-
+2、PHP SAPI介绍
+    · The Server API(API的规范)
+    · 提供与外部通讯的接口
+3、PHP SAPI总览及CLI模式介绍
+    PHP运行模式
+    · cgi(通用网关接口Common Gateway Interface)
+    · fast-cgi(cgi的升级版本)
+    · cli(Command Line Interface 命令行模式)
+    · isapi(Internet Server Application Program Interface,是微软提供的一套面向Internet服务的API接口)
+    · apache2handler(将php作为apache的模块，nginx类似)
+    · 其他(continuity,embed,listespeed,milter等)
+    如何选择PHP的运行模式
+        查看运行模式的方法
+        · php -r phpinfo();|find/grep "Server API"
+        · php -r "echo php_sapi_name();"
+        · phpinfo();
+        选择运行模式前提
+        · 了解这些运行模式的优缺点和应用场景
+        · 根据业务选择
+    CLI模式
+    · Command Line Interface的简称，即命令行接口，在windows和linux下都支持PHP_CLI模式
+    · 它可以直接在命令行下运行，可以完全不用任何http容器
+      例如 php test.php
+    · 应用场景
+        · 定时任务
+        · 开发桌面应用就是使用PHP-CLI和GTK包
+        · 开发shell脚本
+4、CGI模式
+    · cgi(通用网关接口Common Gateway Interface)，它是一段程序，像桥一样把网页和web服务器中的执行程序连接起来，它把http服务器接收的指令传递给执行程序，再把执行程序的结果返回给http服务器。CGI的跨平台性能极佳，几乎可以在任何操作系统上实现。
+    · 执行过程
+        · http服务器接受到用户请求后，例如index.php，会通过它配置的CGI服务来执行
+        · 生成一个php-cgi.exe的进程，并执行php程序
+        · 执行结果返回交给web服务器
+    · 应用场景
+        · 提供http服务
+    · 优缺点
+        · 跨平台性能极佳，几乎可以在任何操作系统上实现
+        · web和server是独立的，结构清晰，可控性强
+        · 性能比较差，来一个请求，fork一个进程，100个请求就会fork100个进程，消耗资源较多(fork-and-execute模式)
+    · 最近几年已经很少见到使用这种模式了
+4、FastCGI模式
+    （需要重新看视频）
+5、模块模式
+    · 模块模式指将PHP作为web服务器的一个模块运行
+    · IIS的 ISAPI和Apache的apache2handler
+
+二、进程、线程与网络I/O模型
+1、进程、线程与协程
+2、线程安全与线程非安全
+    · Thread Safe是线程安全，执行时会进行线程（Thread）安全检查，以防止有新要求就启动新线程的执行方式而耗尽资源，Non Thread Safe是非线程安全，在执行时不进行线程（Thread）安全检查。
+    · 由于ISAPI是线程执行，所以选择下载php版本的时候需要选择Thread Safe版本的。其它选择NTS版本就行（apache可以选择NTS）。
+
+4、Select和Epoll网络I/O模型比较
+    为什么大访问量下Nginx性能更高？
+    · Apache所采用的select网络I/O模型非常低效
+    · Nginx使用了最新的epoll(Linux2.6内核) 和kqueue (freebsd)网络I/O模型
+    · Apache进程干的事情多：执行PHP、输出HTML都得干，占用的资源就多（CPU、内存）
+
+    比较I/O模型select和epoll
+
+三、PHP运行原理
+5、PHP运行机制和原理
+    （1）、我们从未手动开启过PHP的相关进程，它是随着Apache的启动而运行的。
+    （2）、PHP通过SAPI和Apache相连。
+    （3）、PHP总共有三个模块：内核、zend引擎、以及扩展层。
+    （4）、PHP内核用来处理请求、文件流、错误处理等相关操作。
+    （5）、Zend引擎（ZE）用以将源文件转换成机器语言，然后在虚拟机上运行它。
+    （6）、扩展层是一组函数、类库和流，PHP使用它们来执行一下特定的操作。比如，我们需要mysql扩展来链接MySQL数据库。
+    （7）、当ZE执行程序时可能会需要连接喏干扩展，这时ZE将控制权交给扩展，等处理完特定任务后再返回。
+    （8）、最后，ZE将程序运行结果返回给PHP内核，它再将结果通过SAPI传送给浏览器
+
+    扫描（将PHP内容变成一个个语言片段）->解析（将语言片段变成有意义的表达式）->编译（将表达式编译成中间码）->执行（将中间码一条一条执行）->输出（将输出的内容输出到缓冲区）
+
+    扫描：
+    · PHP是怎么将代码转换成这种格式的？
+    · php源码中是 Zend/zend_language_scanner.c去根据 Zend/zend_language_scanner.l（lex规则文件），来对需要执行的php文件进行词法分析，从而得到一个个的“词”(token)，执行规则（也就是切分的方式）还是用正则表达式做的
+    解析（parsing）
+6、PHP垃圾回收机制
+    为什么要清理垃圾？
+    · 如果PHP开启了很多内存空间，但是没有销毁它，内存会一点一点的被吃掉，最终导致内存溢出！
+    · 如果php代码是守护进程。php进程就不会结束，变量和句柄资源就不会自动销毁
+
+    第一步，从所有变量中找到垃圾，所以变量get_defined_vars函数能够看到所有已经定义的变量，那意味着php本身能存储所有变量或已开辟的内存空间。
+    第二步，如何找到垃圾？在这个垃圾变量上面打上标签，这个是垃圾，可以清理！！ 看看变量本身的定义Zend/zend.h中我们可以看到zval的定义
+        zend_uint refcount__gc;//这个用来标记有多少个变量指向t它
+        zend_uchar is_ref__gc;//这个用来标记用引用的方式指向它
+        看看是不是垃圾就看refcount__gc是不是为0
+    第三步， PHP 5.2 版本以前，找到0就清除。
+            5.3版本中采用了引用计数系统中的同步周期回收（Concurrent Cycle Collection in Reference Counted Systems）算法来清除。
+
+    什么时候回收
+    · ？？
+7、PHP的引用
+    · 引用不是C的指针
+    · 引用允许用两个变量来指向同一个内容
+    · 引用左的第二件事是用引用传递变量
+    · 引用左的第三件事是引用返回 (&_user.php)
+
+四、PHP配置选项
+PHP选项之“display_errors” //是否将错误信息作为输出的一部分显示到屏幕，或者对用户隐藏不显示
+PHP选项之“error_reporting” //设置错误报告级别 可以通过error_reporting()函数进行设置
+PHP选项之"variables_order" //设置EGPCS（Environment,Get,Cookie,and Server）超全局变量解析的顺序。默认是没有设置
+PHP选项之"request_order" //确定$_GET和$_POST的等超全局变量的顺序，后面的会把前面的数据重写覆盖。 例如： request_order="GP"  ，如果post请求同时有get的参数，那么post的数据会把get的参数覆盖
+PHP选项之"safe_mode" //安全模式，5.4.0后已经被废除
+PHP选项之"open_basedir" //将PHP所能打开的文件限制在指定的目录树，包括文件本身。本指令 不受安全模式打开或者关闭的影响。当一个脚本试图用例如fopen()或者gzopen()打开一个文件时，改文件的位置将被检查。
+PHP选项之"disable_classes,disable_functions" disable_classes可以使你出于安全的理由禁用某些类，用逗号分隔类名。disable_functions可以使你出于安全的理由禁用某些函数，用逗号分隔函数名。都用不受安全模式影响
