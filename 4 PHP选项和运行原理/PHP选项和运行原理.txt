@@ -48,12 +48,18 @@
 5、模块模式
     · 模块模式指将PHP作为web服务器的一个模块运行
     · IIS的 ISAPI和Apache的apache2handler
+6、Nginx下的PHP的FastCGI
+    PHP安装的时候需要 --enable-fmp
+    配置php-fpm.conf
+    配置nginx.conf
+    用fpm管理器启动PHP的FastCGI模式
+    启动nignx
 
 二、进程、线程与网络I/O模型
 1、进程、线程与协程
 2、线程安全与线程非安全
     · Thread Safe是线程安全，执行时会进行线程（Thread）安全检查，以防止有新要求就启动新线程的执行方式而耗尽资源，Non Thread Safe是非线程安全，在执行时不进行线程（Thread）安全检查。
-    · 由于ISAPI是线程执行，所以选择下载php版本的时候需要选择Thread Safe版本的。其它选择NTS版本就行（apache可以选择NTS）。
+    · 由于ISAPI是线程执行，所以选择下载php版本的时候需要选择Thread Safe版本的。其它选择NTS版本就行（apacheh和nginx可以选择NTS）（apache在高并发选择支持线程可能出现错误）
 3、介绍Apache MPM
 4、Select和Epoll网络I/O模型比较
     为什么大访问量下Nginx性能更高？
@@ -111,3 +117,34 @@ PHP选项之"request_order" //确定$_GET和$_POST的等超全局变量的顺序
 PHP选项之"safe_mode" //安全模式，5.4.0后已经被废除
 PHP选项之"open_basedir" //将PHP所能打开的文件限制在指定的目录树，包括文件本身。本指令 不受安全模式打开或者关闭的影响。当一个脚本试图用例如fopen()或者gzopen()打开一个文件时，改文件的位置将被检查。
 PHP选项之"disable_classes,disable_functions" disable_classes可以使你出于安全的理由禁用某些类，用逗号分隔类名。disable_functions可以使你出于安全的理由禁用某些函数，用逗号分隔函数名。都用不受安全模式影响
+
+
+五、课程笔记：
+PHP能做什么？
+开发服务端脚本
+命令行脚本
+开发桌面应用
+
+short_open_tag
+asp_tags
+allow_call_time_pass_reference
+display_errors 是否将错误信息作为输出的一部分显示到屏幕，或者对用户隐藏不显示
+error_reporting 设置错误报告级别 可以通过error_reporting()函数进行设置，(E_ALL & ~E_NOTICE（错误处理）)
+magic_quotes_gpc （gpc:get post cookie）
+magic_quotes_runtime
+variables_order
+request_order
+
+
+safe_mode   为了试图解决共享服务器（shared-server）安全问题而设立的,PHP将通过文件函数或其目录检查当前脚本的拥有者是否和将被操作的文件的拥有者相匹配
+open_basedir
+disable_classes
+disable_functions
+
+expose_php  展示服务器信息（一般关闭）
+max_input_time
+max_execution_time
+memory_limit
+inclode_path
+extension_dir
+upload_tmp_dir

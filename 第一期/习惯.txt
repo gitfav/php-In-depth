@@ -1,0 +1,36 @@
+1、优先使用单引号
+2、用"1==$a" 替换 "$a==1"
+3、防御式编程思想：
+	（1）、保护程
+4、用自己可控的环境参数
+	明确包含文件路径
+	给予恰当的默认值
+	自定义错误报警的级别
+	不依赖系统环境参数，程序要动态了解所处的环境
+
+	不要相信外部一切的输入
+
+5、PHP没有 ?> 结束标记怎么回事？
+	
+6、header头编码
+
+7、坚持字符编码统一
+
+8、error_reporting(7)
+
+9、优先使用php内置函数
+	usort
+	rawurlencode
+	parse_url
+	http_build_query
+	exif_imagetype
+	levenshtein
+	Uniqid
+	get_browser
+10、不要屏蔽错误提示信息(不要使用@)
+11、时刻备份源代码
+12、记住有效期原则（擅于自己验证）
+
+
+i+=1 i++ i=i+1
+strtr代替str_replace

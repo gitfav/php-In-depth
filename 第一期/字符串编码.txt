@@ -1,0 +1,26 @@
+1、数值字符串包含的符号
+	+,-,e,E,数字等
+2、二进制安全函数
+ c语言中
+    $string1 = "Hello";
+    $string2 = "Hello\x00Hello";
+    echo strcoll($string1, $string2); // 返回0, 由于是非二进制安全，误判为相等
+    echo strcmp($string1, $string2); // 返回负数
+
+  php语言
+    $ab = "aa\0b";   
+    $ac = "aa\0c";  
+    var_dump(strcmp($ab, $ac));  //返回-1，由于是二进制安全的函数处理了字符串
+    var_dump(strlen($ab));  //返回4
+
+  php中的变量存储结构是
+    ...
+    struct {
+	char *val;
+	int len;
+    }
+    ...
+    一个是指向字符串的指针val，另一个是记录字符串长度的len值，就是因为有len这个值，导致了php是二进制安全的：因为它不需要像C一样通过是否遇到'\0'结尾符来判断整个字符串是否读取完毕，而是通过len这个值指定的长度进行读取。
+
+ c以空字节为字符串的结束，所以会出现空字符攻击这个说法
+3、
