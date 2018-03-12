@@ -1,0 +1,14 @@
+opcode.php代码如下
+<?php
+
+$a = 1;
+$b = 2;
+$c = $a + $b;
+echo $c;
+
+先安装vld扩展
+install.php
+
+通过命令行 php -dlvd.active=1 opcode.php 来输出opcode.php中的代码
+opcode.php
+
