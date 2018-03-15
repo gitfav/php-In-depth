@@ -1,0 +1,81 @@
+一、JavaScript-闭包
+1、从现象开始
+	什么叫闭包：
+	《javascript高级程序设计》闭包是指有权访问另一个函数作用域的变量的函数
+	一个外部函数执行完毕之后，由于其内部函数被外部引用，导致其作用域的变量继续存活，而不能在函数执行完毕后被销毁，包含这些变量的那个对象就成为闭包
+2、JavaScript-闭包-4-闭包的应用
+	var obj1() = {
+		name : '四脚猫',
+		_secret : '秘密',
+		_lave : function(){console.log(name + '洗澡ing')},
+		_toilet : function(){console.log(name + '上厕所ing')},
+		show : function() {
+			this.toilet()
+			this.lave()
+			console.log(this.name + ' hi')
+		}
+	}
+	上面对象的_secret，_lave，_toilet属性和函数仍可以外部访问。
+	使用闭包：
+	function make(name){
+		var secret = "秘密"
+		var lave = function(){console.log(name + '洗澡ing')}
+		var toilet = function(){console.log(name + '上厕所ing')}
+		return {
+			name : name,
+			show : function() {
+				toilet()
+				lave()
+				console.log(this.name + ' hi')
+			}
+		}
+	}
+
+	var obj2 = make('四脚猫升级版');//lave和toilet函数外部无法访问
+
+二、JavaScript-原型和原型链
+	function Animal(name) {
+		this.name = name;
+		this.run = function(){console.log(this.name+'run')};
+		this.cry = function(){console.log(this.name+'cry')};
+	}
+	var a = new Animal('d');
+	如果上面定义一个类。每个类会生成自己的对象。浪费资源。
+
+	function Animal(){
+		this.name = '动物'
+	}
+
+	Aniamal.prototype.run = function() {
+		console.log(this.name + 'run');
+	}
+	上面的在创建对象，执行函数时。如果没有run函数，会去类原型中找。这样可以节约资源
+
+	原型链（和类的继承相识）：
+	function Animal(){
+		this.name = '动物'
+	}
+	Aniamal.prototype.run = function() {
+		console.log(this.name + 'run');
+	}
+
+	function Bird(){
+		this.name = '鸟'
+	}
+	Bird.prototype = new Animal();
+	Bird.prototype.fly = function() {
+		console.log(this.name + '飞走了');
+	}
+
+	function Crow(name) {
+		this.name = name || '乌鸦'
+	}
+	Crow.prototype = new Bird();//生成一个原型链
+	Crow.prototype.drink = function() {
+		console.log(this.name + '喝水');
+	}
+	var crow = new Crow('可爱的乌鸦');
+	crow.drink();
+	crow.run();
+	crow.fly();
+三、JavaScript-作用域和作用域链
