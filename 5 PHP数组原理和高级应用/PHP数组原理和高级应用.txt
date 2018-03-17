@@ -42,7 +42,7 @@
 	PHP中有8种变量类型，分三类
 	· 标量类型：boolean、integer、float(double)、string
 	· 复合类型：array 、 object
-	· 特殊类型：resource、NULL
+	· 特殊类型：resource（资源类型）、NULL
 	PHP数组类型与其他类型的转换（上课试试）
 	· int，float，string，boolean 和 resource 类型 (array)$scalarValue 等同 array($scalarValue)
 	· object 转换为 array，结果为一个数组，其单元为该对象的属性，键名将为成员变量名
@@ -55,6 +55,7 @@
 	（5）、current和next ：内部指针遍历
 
 	foreach和for性能对比
+	    在遍历过程中要访问数组元素或者对元素进行处理，foreach更快
 	foreach遍历中的顺序
 	foreach遍历中的引用
 		$arr = array(1,2,3);
@@ -135,3 +136,58 @@
 
 		先了解网站：http://php.net/manual/zh/wrappers.php.php#wrappers.php.input
 	3、数组与数据结构
+
+	    链表 双向链表 环链表
+
+        数组和数据结构之“集合”
+
+        集合是一组可变数量的数据项的组合。
+
+        栈：
+        array_pop($stack);//出栈
+        array_push($stack,$item);//入栈
+
+        array_push($queue,7) //入列
+        array_shift($queue) //出列
+
+
+
+课堂记录：
+
+预定义数组
+
+_GLOBALS --引用全局作用域中可用的全部变量
+_SERVER
+_POST
+_GET
+_COOKIE
+_FILES
+_ENV --环境变量
+
+php数组转换成字符串，也即串行化、持久化
+    方法一：函数Serialize()可以实现
+    方法二：函数json_encode()可以实现
+    方法三：函数var_export($items,true); （把数组存入文件）
+    方法四：xml、自定义文件格式...
+
+PHP数组“指针”相关函数
+    current()
+    end()
+    next()
+    prev()
+    reset()
+    each()
+
+PHP数组元素查找
+    键值是否存在 array_key_exiests()和isset()
+    值是否存在 in_array()和array_search()
+    依据键返回值： $items[$key]
+    依据值返回值： array_keys()
+
+PHP数组的过滤与移除
+1、直接用unset移除元素（但不可靠）
+2、建立新数组，加入合适的元素（推荐）
+
+PHP排序函数：
+    array_multisort();
+    usort();
