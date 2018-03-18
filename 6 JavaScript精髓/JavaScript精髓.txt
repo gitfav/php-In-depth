@@ -1,26 +1,26 @@
-һ��JavaScript-�հ�
-1��������ʼ
-	ʲô�бհ���
-	��javascript�߼�������ơ��հ���ָ��Ȩ������һ������������ı����ĺ���
-	һ���ⲿ����ִ�����֮���������ڲ��������ⲿ���ã�������������ı����������������ں���ִ����Ϻ����٣�������Щ�������Ǹ�����ͳ�Ϊ�հ�
-2��JavaScript-�հ�-4-�հ���Ӧ��
+一、JavaScript-闭包
+1、从现象开始
+	什么叫闭包：
+	《javascript高级程序设计》闭包是指有权访问另一个函数作用域的变量的函数
+	一个外部函数执行完毕之后，由于其内部函数被外部引用，导致其作用域的变量继续存活，而不能在函数执行完毕后被销毁，包含这些变量的那个对象就成为闭包
+2、JavaScript-闭包-4-闭包的应用
 	var obj1() = {
-		name : '�Ľ�è',
-		_secret : '����',
-		_lave : function(){console.log(name + 'ϴ��ing')},
-		_toilet : function(){console.log(name + '�ϲ���ing')},
+		name : '四脚猫',
+		_secret : '秘密',
+		_lave : function(){console.log(name + '洗澡ing')},
+		_toilet : function(){console.log(name + '上厕所ing')},
 		show : function() {
 			this.toilet()
 			this.lave()
 			console.log(this.name + ' hi')
 		}
 	}
-	��������_secret��_lave��_toilet���Ժͺ����Կ����ⲿ���ʡ�
-	ʹ�ñհ���
+	上面对象的_secret，_lave，_toilet属性和函数仍可以外部访问。
+	使用闭包：
 	function make(name){
-		var secret = "����"
-		var lave = function(){console.log(name + 'ϴ��ing')}
-		var toilet = function(){console.log(name + '�ϲ���ing')}
+		var secret = "秘密"
+		var lave = function(){console.log(name + '洗澡ing')}
+		var toilet = function(){console.log(name + '上厕所ing')}
 		return {
 			name : name,
 			show : function() {
@@ -31,51 +31,190 @@
 		}
 	}
 
-	var obj2 = make('�Ľ�è������');//lave��toilet�����ⲿ�޷�����
+	var obj2 = make('四脚猫升级版');//lave和toilet函数外部无法访问
 
-����JavaScript-ԭ�ͺ�ԭ����
+二、JavaScript-原型和原型链
 	function Animal(name) {
 		this.name = name;
 		this.run = function(){console.log(this.name+'run')};
 		this.cry = function(){console.log(this.name+'cry')};
 	}
 	var a = new Animal('d');
-	������涨��һ���ࡣÿ����������Լ��Ķ����˷���Դ��
+	如果上面定义一个类。每个类会生成自己的对象。浪费资源。
 
 	function Animal(){
-		this.name = '����'
+		this.name = '动物'
 	}
 
 	Aniamal.prototype.run = function() {
 		console.log(this.name + 'run');
 	}
-	������ڴ�������ִ�к���ʱ�����û��run��������ȥ��ԭ�����ҡ��������Խ�Լ��Դ
+	上面的在创建对象，执行函数时。如果没有run函数，会去类原型中找。这样可以节约资源
 
-	ԭ����������ļ̳���ʶ����
+	原型链（和类的继承相识）：
 	function Animal(){
-		this.name = '����'
+		this.name = '动物'
 	}
 	Aniamal.prototype.run = function() {
 		console.log(this.name + 'run');
 	}
 
 	function Bird(){
-		this.name = '��'
+		this.name = '鸟'
 	}
 	Bird.prototype = new Animal();
 	Bird.prototype.fly = function() {
-		console.log(this.name + '������');
+		console.log(this.name + '飞走了');
 	}
 
 	function Crow(name) {
-		this.name = name || '��ѻ'
+		this.name = name || '乌鸦'
 	}
-	Crow.prototype = new Bird();//����һ��ԭ����
+	Crow.prototype = new Bird();//生成一个原型链
 	Crow.prototype.drink = function() {
-		console.log(this.name + '��ˮ');
+		console.log(this.name + '喝水');
 	}
-	var crow = new Crow('�ɰ�����ѻ');
+	var crow = new Crow('可爱的乌鸦');
 	crow.drink();
 	crow.run();
 	crow.fly();
-����JavaScript-���������������
+三、JavaScript-作用域和作用域链
+
+四、JavaScript-执行流与错误影响范围
+	js Callback  ->   mouse click callback  ->     timer      ->  interval  -> interval -> ... -> interval
+	正在处理的函数快	鼠标点击事件	         setTimeout       setInterval
+	出现语法错误时，只会影响自己运行的一块后面的代码
+
+	jq的 $(function(){}) 中，如果有错，后面会影响，除非出差代码自己是独立一个函数块（执行流）
+
+执行流
+	script标签中，setTimeout 会产生一个执行流
+
+五、JavaScript-基础重点
+1、对象作为函数的参数传递
+	function(){
+		var point = {left:0, top:2}
+		function change(point) {
+			point.left = 2
+		}
+		function change2(point) {
+			point = {left:3, top:4}
+		}
+		change(point); //这里实参和形参都指向 {left:0, top:2}。所以{left:0, top:2}中 left 会改变
+		console.log(point)
+		change2(point); //刚赋值时，形参和实参都指向{left:0, top:2} 。但函数里的 形参又赋值。形参重新指向{left:3, top:4}。与实参指向不同了
+		console.log(point)
+	}
+2、了解this
+	var name = 'www.sijiaomao.com'
+	var person = {
+		name :'四脚猫',
+		getName:function() {
+			setTimeout(function(){
+				console.log('a='+this.name)
+			},0)
+		}
+
+		return this.name
+	}
+
+	var getName = person.getName
+
+	console.log('b='+person.getName()); //这里的 函数中的 this 指向对象
+	console.log('c='+getName()); //这里 this 指向了最外层windows。所以这里值 c=www.sijiaomao.com
+3、变量声明提升
+	（1）、
+	getName();//此次因为没有执行 变量 声明。所以执行下面的函数声明
+	var getName = function(){
+		console.log('四脚猫');
+	}
+
+	function getName(){
+		console.log('sijioamao.com');
+	}
+	getName();//这里因为执行了 变量 声明，所以变量声明覆盖了函数声明。这里执行了变量声明
+
+
+	（2）、变量声明
+		$(function(){
+			name = '四脚猫'; //这里没有加 var ，name变成了全局变量
+			for(i = 0;i < 10; i++) {}
+
+			var x = y = z =1;  //这里 var只影响了 x ,y和z成了全局变量。此次容易出错
+			var a=1 ,b =1 ,c=1;  //此处写法时局部作用域
+		})();
+4、数组方法的注意事项
+	（1）、
+		var a = [1,2,3]
+		var b = a.reverse() //a发生了变化
+		console.log(a,b)
+
+		var c = [4,5,6]
+		var d = c.concat('x','y','z'); //c没有发生变化
+		console.log(c,d)
+
+		var a = [1,23,3,4,56]
+		console.info(a.sort()) //根据assics 来排序的
+
+5、typeof 使用
+	var a = [];
+	var b;
+	var c = null;
+	function d() {};
+
+	console.log(typeof a);  //得到的类型  object
+	console.log(typeof b);	//得到的类型  undefined
+	console.log(typeof c);	//得到的类型  object
+	console.log(typeof d);	//得到的类型  function
+
+6、函数返回对象
+	function A(name){
+		this.name = '四脚猫高级';
+		return {name : name}
+	}
+	var a = A('sss');
+	var b = new A('sss');  //注意：这里由于类返回了一个对象 。所以b 是 {name : name} 。b.name 的值是 'sss'
+	console.log(a.name, b.name);
+
+六、数据类型转换
+
+	若 x 与 y 相同  X == Y, 比较运算按如下方式进行
+	· 若Type(x)为Undefined或Null， 返回true。
+	· 若Type(x)为Number	若x或y为NaN， 返回false。	若x与y为相等数值， 返回true。	其他，返回false。
+	· 若Type(x)为String	当x和y为完全相同的字符序列时返回true；否则返回false。
+	· 若Type(x)为Boolean	当x和y为同为true或者同为false时返回true； 否则返回false。
+	· 当x和y为引用同一对象时返回true；否则返回false。
+
+	如果 x 和 y 的类型不同  X == Y, 比较运算按如下方式进行
+	· 若x(或y)为null且y(或x)为undefined， 返回true
+	· 若Type(x) 为 Number 且 Type(y)为String， 返回比较 x == ToNumber(y)的结果
+	· 若Type(x) 为 String 且 Type(y)为Number，返回比较ToNumber(x) == y的结果
+	· 若Type(x)为Boolean， 返回比较ToNumber(x) == y的结果
+	· 若Type(y)为Boolean， 返回比较x == ToNumber(y)的结果
+	· 若Type(x)为String或Number，且Type(y)为Object，返回比较x == ToPrimitive(y)的结果
+	· 若Type(x)为Object且Type(y)为String或Number， 返回比较ToPrimitive(x) == y的结果
+	· 返回false
+
+	var o = {
+		valueOf: function(){return 5},
+		toString:function(){return '3'}
+	}
+
+七、call&apply
+	var obj1 = {
+		name : 'sss',
+		value: 0,
+		add : function(a,b,c) {
+			this.value = a+b+c;
+		},
+		get : function(){
+			console.log(this.name, this.value)
+		}
+	}
+
+	var obj2 = {name:'qqq', value:0}
+	obj1.add.call(obj2,1,2,3); //函数后 调用了 call ，则obj2 , add的this就指向了 obj2 。就像obj2借用了obj1的方法
+	call和apply作用一样 apply 调用传参不同  obj1.add.apply(obj2,[1,2,3]);
+
+八、事件和事件委托
+	
