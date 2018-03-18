@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>示例1</title>
+</head>
+<body>
+打开任务管理器，查看内存增加情况
+
+<script src="../../common/jquery-1.11.0.js"></script>
+<script>
+setTimeout(function() {
+    function main() {
+        var str = 'www.baike.com';
+        for (var i = 0; i < 10; i++) {
+            str += str
+        }
+        
+        return function() {
+            return str;
+        }
+        /*
+        return function() {
+            //如果不用上面str变量，此处根据浏览器引擎和版本不同，str可能会不释放，也可能释放
+        }
+        */
+    }
+
+    var arr = [];
+    var a;
+
+    // 打开任务管理器，查看内存增加情况
+    for (var i = 0; i < 2000000; i++) {
+        $('body').click(main()); //函数结束，因为绑定了事件，绑定的函数不会随着总函数结束被释放。
+        // arr.push(main()); //或添加到数组中，也会增加内存。但此函数执行结束，由于数组是局部变量，数组会随着函数被释放
+        // a = main(); //此次每次a指定对象变化，原来的指定对象被释放，所以内存不会大量添加
+    }
+
+}, 10000)
+</script>
+</body>
+</html>

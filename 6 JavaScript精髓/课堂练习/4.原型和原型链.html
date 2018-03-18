@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>示例1</title>
+</head>
+<body>
+打开控制台
+
+<script src="../../common/jquery-1.11.0.js"></script>
+<script>
+    // function Animal(){
+    //     this.name = '动物'
+    // }
+    // Animal.prototype.run = function() {
+    //     console.log(this.name + 'run');
+    // };
+    //
+    // console.log(Animal.__proto__ == Function.prototype);
+    // function Bird(){
+    //     this.name = '鸟'
+    // }
+    // Bird.prototype = new Animal();
+    // Bird.prototype.fly = function() {
+    //     console.log(this.name + '飞走了');
+    // };
+    //
+    // function Crow(name) {
+    //     this.name = name || '乌鸦'
+    // }
+    // Crow.prototype = new Bird();//生成一个原型链
+    // Crow.prototype.drink = function() {
+    //     console.log(this.name + '喝水');
+    // };
+    // var crow = new Crow('可爱的乌鸦');
+    // crow.drink();
+    // crow.run();
+    // crow.fly();
+
+    function Animal() {
+        this.name = '动物';
+    }
+
+    Animal.prototype.run = function () {
+        console.log('run');
+    };
+
+    var aa = new Animal();
+
+    function Bird() {
+        this.name = 'bird';
+    }
+    Bird.prototype = new Animal();
+    var bb = new Bird();
+
+    // function
+    console.log(aa,bb);
+</script>
+</body>
+</html>

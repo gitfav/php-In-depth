@@ -33,7 +33,11 @@
 
 	var obj2 = make('四脚猫升级版');//lave和toilet函数外部无法访问
 
+    · 闭包得到 可以是一个对象，但对象里面必须要有函数。
+
 二、JavaScript-原型和原型链
+
+    · 原型（prototype）：
 	function Animal(name) {
 		this.name = name;
 		this.run = function(){console.log(this.name+'run')};
@@ -46,12 +50,17 @@
 		this.name = '动物'
 	}
 
-	Aniamal.prototype.run = function() {
+	Animal.prototype.run = function() {
 		console.log(this.name + 'run');
 	}
 	上面的在创建对象，执行函数时。如果没有run函数，会去类原型中找。这样可以节约资源
 
-	原型链（和类的继承相识）：
+	var aa = new Animal();
+	console.log(aa._proto_ == Animal.prototype) 是 true
+
+	· 原型链（和类的继承相识）：
+
+	实例化对象 _proto_
 	function Animal(){
 		this.name = '动物'
 	}
@@ -87,8 +96,10 @@
 
 	jq的 $(function(){}) 中，如果有错，后面会影响，除非出差代码自己是独立一个函数块（执行流）
 
-执行流
-	script标签中，setTimeout 会产生一个执行流
+    执行流：
+        语法错误 ：影响整块执行流。
+        运行时错误 ：影响后面的代码执行。
+	    script标签中，setTimeout 会产生一个执行流 setTimeout等待代码执行结束，执行setTimeout。
 
 五、JavaScript-基础重点
 1、对象作为函数的参数传递
@@ -121,7 +132,7 @@
 	var getName = person.getName
 
 	console.log('b='+person.getName()); //这里的 函数中的 this 指向对象
-	console.log('c='+getName()); //这里 this 指向了最外层windows。所以这里值 c=www.sijiaomao.com
+	console.log('c='+getName()); //因为这里只调用了函数，这里 this 指向了最外层windows。所以这里值 c=www.sijiaomao.com
 3、变量声明提升
 	（1）、
 	getName();//此次因为没有执行 变量 声明。所以执行下面的函数声明
@@ -173,17 +184,41 @@
 		return {name : name}
 	}
 	var a = A('sss');
-	var b = new A('sss');  //注意：这里由于类返回了一个对象 。所以b 是 {name : name} 。b.name 的值是 'sss'
-	console.log(a.name, b.name);
+	var b = new A('sss');  //注意：这里由于类返回了一个对象 ，new就不起作用（设计缺陷）。所以b 是 {name : name} 。b.name 的值是 'sss'
+	console.log(a.name, b.name);    输出：sss,sss
 
+    //对象作为参数
+    function change(b){
+        b.name = '123';
+    }
+    function change2(b){
+        b = {name : 'r23',age:23};
+    }
+    point = {name:'asd',age:39};
+    change(point); //传入实参到函数，实参和形参都指向同一个对象。
+    console.log(point);
+    change2(point); //传入实参到函数，实参和形参都指向同一个对象。但形参重新赋值，所以实参和形参指向了不同的对象
+
+7、switch
+    switch(true) {
+        case 1:
+            ;
+        case 2:
+            ;
+        case 'true':
+            ;
+        default:
+            ;
+    }
+    因为switch需要判断是 === ，所以会执行 default
 六、数据类型转换
-
-	若 x 与 y 相同  X == Y, 比较运算按如下方式进行
+	若 x 与 y 的类型相同  X == Y, 比较运算按如下方式进行
 	· 若Type(x)为Undefined或Null， 返回true。
-	· 若Type(x)为Number	若x或y为NaN， 返回false。	若x与y为相等数值， 返回true。	其他，返回false。
-	· 若Type(x)为String	当x和y为完全相同的字符序列时返回true；否则返回false。
-	· 若Type(x)为Boolean	当x和y为同为true或者同为false时返回true； 否则返回false。
+	· 若Type(x)为Number 	若x或y为NaN， 返回false。	若x与y为相等数值， 返回true。其他，返回false。
+	· 若Type(x)为String	当x和y为完全相同的字符序列时返回true；否则返回false。
+	· 若Type(x)为Boolean 当x和y为同为true或者同为false时返回true； 否则返回false。
 	· 当x和y为引用同一对象时返回true；否则返回false。
+    NaN == NaN 结果为 false
 
 	如果 x 和 y 的类型不同  X == Y, 比较运算按如下方式进行
 	· 若x(或y)为null且y(或x)为undefined， 返回true
@@ -191,14 +226,24 @@
 	· 若Type(x) 为 String 且 Type(y)为Number，返回比较ToNumber(x) == y的结果
 	· 若Type(x)为Boolean， 返回比较ToNumber(x) == y的结果
 	· 若Type(y)为Boolean， 返回比较x == ToNumber(y)的结果
-	· 若Type(x)为String或Number，且Type(y)为Object，返回比较x == ToPrimitive(y)的结果
-	· 若Type(x)为Object且Type(y)为String或Number， 返回比较ToPrimitive(x) == y的结果
+	· 若Type(x)为String或Number，且Type(y)为Object，返回比较x == ToPrimitive(y)的结果 （ToPrimitive指返回原始值）
+	· 若Type(x)为Object且Type(y)为String或Number，返回比较ToPrimitive(x) == y的结果
 	· 返回false
 
+    ToPrimitive();
 	var o = {
-		valueOf: function(){return 5},
-		toString:function(){return '3'}
+		valueOf: function(){return 5}, //
+		toString:function(){return '3'} //默认为 '[object]'
 	}
+
+	例子:
+	false == {};的值是ture还是false
+	第一步： false 转数字 为 0
+	二   ： {} 进行 ToPrimitive() 得到原始值。原始值未 '[object]' 的字符串
+	三   ： 因为左边为数字  。 '[object]' 要转数字，字符串没有数字，变成NaN
+    转换时，类型不同 主要是有数字都转成数字
+
+    比较时 ：先看是否类型相同-》看转换成数字比较
 
 七、call&apply
 	var obj1 = {
@@ -217,4 +262,5 @@
 	call和apply作用一样 apply 调用传参不同  obj1.add.apply(obj2,[1,2,3]);
 
 八、事件和事件委托
-	
+	$('a').click(fn)                //事件对每个a标签绑定
+	$('body').on('click','a',fn)    //这里对body进行绑定。如果点击a，因为有冒泡功能，所以向上会找到body中的事件。所以如果想大量绑定同一个标签，可以使用此方法。

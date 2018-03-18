@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>示例1</title>
+</head>
+<body>
+打开任务管理器，查看内存增加情况
+
+<script src="../../common/jquery-1.11.0.js"></script>
+<script>
+    var make = function () {
+        var name = 'ope 啊';
+        function _tailet(){
+            console.log('xizong');
+        }
+        function _lave(){
+            console.log('chif');
+        }
+
+        return {
+            name: name,
+            show : function () {
+                _tailet();
+                _lave();
+                console.log(this.name);
+            }
+        }
+    }
+
+    var obj = make();
+    obj.show();
+</script>
+</body>
+</html>
