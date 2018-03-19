@@ -8,10 +8,12 @@ $commits_arr = explode(',', $commits);
 $answers_arr = explode(',', $answers);
 
 $sorce = 0;
-foreach ($commits_arr as $k => $v) {
-    if ($v == $answers_arr[$k]) {
-        $sorce += 5;
-    }
-}
+//foreach ($commits_arr as $k => $v) {
+//    if ($v == $answers_arr[$k]) {
+//        $sorce += 5;
+//    }
+//}
+$sorce = count(array_intersect_assoc($commits_arr,$answers_arr)) * 5;
+$sorce = count(array_intersect_assoc($commits_arr,$answers_arr)) * 5;
 
 var_dump($sorce);
