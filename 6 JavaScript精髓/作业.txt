@@ -1,0 +1,60 @@
+var myInfo = function() {
+    	var name = 'wang';
+    	function _age() {
+    		console.log('1000');
+    	}
+    	function _doing() {
+    		console.log('??');
+    	}
+
+    	function showName() {
+    		console.log(name);
+    	}
+    	return {
+    		name : name,
+    		show : function() {
+    			_age();
+    			_doing();
+    		},
+    		changeName : function(newname) {
+    			name = newname;
+    			showName();
+    		}
+    	}
+    }
+
+    info = myInfo();
+    info.show();
+    info.changeName('trn');
+    console.log(info.name); //但类里的name没有变化
+
+
+    function animal() {
+    	this.name = '动物';
+    }
+
+    animal.prototype.run = function()
+    {
+    	console.log('run');
+    }
+
+    function Bird(){
+    	this.name = '鸟';
+    }
+    Bird.prototype.fly = function()
+    {
+    	console.log('fly');
+    }
+    Bird.prototype = new animal(); //继承动物
+
+    function Crow() {
+    	this.name = "乌鸦";
+    }
+    Bird.prototype.Crow = function()
+    {
+    	console.log('drink');
+    }
+    Crow.prototype = new Bird();//继承鸟
+
+    var crow = new Crow();
+    crow.run();
