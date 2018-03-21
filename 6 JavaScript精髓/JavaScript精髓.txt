@@ -1,4 +1,4 @@
-一、JavaScript-闭包
+﻿一、JavaScript-闭包
 1、从现象开始
 	什么叫闭包：
 	《javascript高级程序设计》闭包是指有权访问另一个函数作用域的变量的函数
@@ -239,7 +239,7 @@
 	例子:
 	false == {};的值是ture还是false
 	第一步： false 转数字 为 0
-	二   ： {} 进行 ToPrimitive() 得到原始值。原始值未 '[object]' 的字符串
+	二   ： {} 进行 ToPrimitive() 得到原始值。原始值为 '[object object]' 的字符串
 	三   ： 因为左边为数字  。 '[object]' 要转数字，字符串没有数字，变成NaN
     转换时，类型不同 主要是有数字都转成数字
 
