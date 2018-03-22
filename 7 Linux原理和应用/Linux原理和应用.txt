@@ -1,0 +1,36 @@
+一、Linux原理与实战
+
+2、磁盘与文件统计
+    · df 查看磁盘空间
+    · du 统计文件占用空间
+    · fdisk 分区管理
+    · mkfs.ext3 磁盘格式化
+    · mount 磁盘挂载
+    · umount 磁盘卸载
+
+    Ext2,Ext3,Ext4
+    
+    raid0 raid1 raid5
+
+3、Linux文件查找-1
+    · find ：功能最丰富的文件查找命令
+    · 
+
+4、文本处理
+    cat 查看文件内容
+    head 查看文件头部
+    tail 查看文件尾部
+    more 分页查看文件内容
+    less 更强的分页查看文件内容
+    cut 按列查看文件内容，默认以TAB分隔
+
+    sort 对文件内容排序
+    uniq 对文件内容排重，-c可统计重复行数量
+    
+    diff 对比文件内容
+    grep  查找文件内容
+    split 按行、字节切分并输出字段
+    wc 字节，单词计量
+    cut 选择每一行中特定的列（字段）
+
+    sort 对文件中的行排序，默认以ASCII顺序排列
