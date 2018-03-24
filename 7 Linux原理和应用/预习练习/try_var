@@ -1,0 +1,18 @@
+#!/bin/sh
+
+myvar="Hello"
+
+echo $myvar
+echo "The program $0 is running"
+echo "the second parameter was $2"
+echo "the first parameter was $1"
+echo "the  parameter list $*"
+echo "the user's home directory is $HOME"
+
+echo "Please enter a new greeting"
+read myvar
+
+echo $myvar 
+echo "The script is now complete"
+
+exit 0

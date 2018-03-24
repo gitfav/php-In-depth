@@ -1,0 +1,15 @@
+#!/bin/sh
+
+text="text"
+fun_a() {
+    text="func";
+}
+
+fun_a
+
+if [ 1==2 ]
+then
+    echo 1
+fi
+ 
+echo $text

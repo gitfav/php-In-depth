@@ -34,3 +34,167 @@
     cut 选择每一行中特定的列（字段）
 
     sort 对文件中的行排序，默认以ASCII顺序排列
+	
+    grep 输出文本中匹配所指定正则表达式的行
+	例：grep -cP 'bot|spider' ./access.log
+	显示 access.log 文件中出现的 bot 或 spider 关键词的行数
+
+	-c 输出匹配到的行数
+	-E 启动更强大的正则表达式
+	-H 输出匹配到的行及所属的文件名
+	-i
+	-l 在文件中找到第一个匹配后，显示文件名，停止后续查找
+	-v 输出不匹配的行
+	--color 高亮显示匹配到的内容
+    split 切分文件
+	-b
+	-c
+	
+    通过管道组合使用工具
+	找出IP，每行一个
+	
+	去重并统计
+	
+	排序
+	
+	取前10个
+	$ cut -d " " -f1 ./access.log | sort | uniq -c | sort -n -r | head -10
+
+5、管道
+    所有Linux程序的标准输出都可以通过管道传递给另一个程序作为标准输入
+
+    > 符合可重定向输出位置。
+
+    ls -l > ls_output.log 将标准输出重定向到ls_output.log 文件
+    ls -l >> ls_append.log  将标准重定向追加到ls_output.log 文件
+    ls -l 1> ls_output.log 2> ls_error.log 将标准输出重定向到ls_output.log 文件，将标准错误输出重定向到ls_error.log 文件
+
+    ls -l 1> ls_out.log 2>&1 将标准输出重定向到ls_output.log 文件，然后将标准错误输出重定向到和标准输出同样的地方
+
+    more < xxx.txt 输入重定向
+
+    $ xxxxx > /dev/null  //放到黑洞，删除文件
+
+6、系统管理
+    ps  显示当前进程
+    kill 终止某进程
+    fg 将后台任务调到前台
+    crontab 让命令自动定时运行
+
+    netstat 查看网络状态
+    netstat -alpn 查看所以网络连接状态，带进程名称
+    ifconfig 查看网卡配置、ip地址信息
+    iptables :Linux防火墙
+
+    （1）常用命令：
+
+    service iptables start 启动服务
+    iptables -A OUTPUT -d 8.8.8.8 -j DROP 禁止服务器访问8.8.8.这个地址
+
+    （2）top命令
+
+二、Shell编程
+    通配符：
+    * 任意字符串
+    ? 单个字符
+    [abc] a或b或c
+    [^abc] 非(a或b或c)
+    {php,java} php或 java
+    例：ls /etc/cron.{daily.weekly}
+
+1、 环境变量：
+    $HOME   当前用户的家目录
+    $PATH   搜索命令列表，以冒号分隔
+    $0      shell 脚本文件名
+    $#      传递给脚本的参数个数
+    $$      shell 脚本进程号（PID），可用于生成唯一的临时文件
+    $PS1    命令提示符
+    $PS2    二级命令提示符，一般为 >
+    $IFS    输入域分隔符，通常为空格、制表符、换行符
+    参数变量与参数相关的变量：
+
+    $1，$2，... $n    第n个参数   
+    $*    以IFS分隔的所有参数
+    $@    以空格分隔的所有参数
+    $#    参数个数
+
+2、 条件判断
+    if test -f foo.php
+    then
+	...
+    fi
+
+    if [ -f foo.php ]
+    then
+	...
+    fi
+
+    字符串比较
+	string1 = string2
+	string1 != string2
+	-n string 字符串不为空则为真
+	-z string 字符串为null（空）则为真
+
+    test 算术比较
+    expressionl -eq expression2
+    -ne
+    -gt
+    -ge
+    -lt
+    -le
+    ! expression
+
+    test 文件测试
+    -d file 如果文件是一个目录则为真
+    -f 文件为普通文件则为真
+    -e 文件存在则为真
+    -s 文件大小不为0则为真
+    -r 文件可读则为真
+    -w 文件可写则为真
+    -x 文件可执行则为真
+3、for循环
+    例：列出f开头，.sh结尾的文件
+    (1).for file in $(ls f*.sh)
+    do
+	echo $file
+    done
+    exit 0
+
+
+    for i in {a..z}  //打印出a - z
+    do
+	echo $i
+    done
+    exit 0
+    
+    (2).while 循环
+    while conditon
+    do
+	...
+    done
+
+    (3).until  循环-反复执行直到条件为真
+    until condition
+    do
+	...
+    done
+
+    (4).case 语句
+    case variable in
+	pattern ([|pattern ]...) statements ;;
+	pattern ([|pattern ]...) statements ;;
+	...
+    esac
+
+4、命令列表
+    statement1 && statement2 && statement3 && ...
+    statement1 || statement2 || statement3 || ...   //和PHP的效果一样
+    (6).语句块
+    get_confirm && { ... }
+5、函数
+    function_name(){
+	statements
+    }
+    function_name
+
+    必须在调用函数前对它定义
