@@ -1,159 +1,159 @@
-һ��Linuxԭ����ʵս
+一、Linux原理与实战
 
-2���������ļ�ͳ��
-    �� df �鿴���̿ռ�
-    �� du ͳ���ļ�ռ�ÿռ�
-    �� fdisk ��������
-    �� mkfs.ext3 ���̸�ʽ��
-    �� mount ���̹���
-    �� umount ����ж��
+2、磁盘与文件统计
+    · df 查看磁盘空间
+    · du 统计文件占用空间
+    · fdisk 分区管理
+    · mkfs.ext3 磁盘格式化
+    · mount 磁盘挂载
+    · umount 磁盘卸载
 
     Ext2,Ext3,Ext4
-    
+
     raid0 raid1 raid5
 
-3��Linux�ļ�����-1
-    �� find ��������ḻ���ļ���������
-    �� 
+3、Linux文件查找-1
+    · find ：功能最丰富的文件查找命令
+    ·
 
-4���ı�����
-    cat �鿴�ļ�����
-    head �鿴�ļ�ͷ��
-    tail �鿴�ļ�β��
-    more ��ҳ�鿴�ļ�����
-    less ��ǿ�ķ�ҳ�鿴�ļ�����
-    cut ���в鿴�ļ����ݣ�Ĭ����TAB�ָ�
+4、文本处理
+    cat 查看文件内容
+    head 查看文件头部
+    tail 查看文件尾部
+    more 分页查看文件内容
+    less 更强的分页查看文件内容
+    cut 按列查看文件内容，默认以TAB分隔
 
-    sort ���ļ���������
-    uniq ���ļ��������أ�-c��ͳ���ظ�������
-    
-    diff �Ա��ļ�����
-    grep  �����ļ�����
-    split ���С��ֽ��зֲ�����ֶ�
-    wc �ֽڣ����ʼ���
-    cut ѡ��ÿһ�����ض����У��ֶΣ�
+    sort 对文件内容排序
+    uniq 对文件内容排重，-c可统计重复行数量
 
-    sort ���ļ��е�������Ĭ����ASCII˳������
-	
-    grep ����ı���ƥ����ָ���������ʽ����
-	����grep -cP 'bot|spider' ./access.log
-	��ʾ access.log �ļ��г��ֵ� bot �� spider �ؼ��ʵ�����
+    diff 对比文件内容
+    grep  查找文件内容
+    split 按行、字节切分并输出字段
+    wc 字节，单词计量
+    cut 选择每一行中特定的列（字段）
 
-	-c ���ƥ�䵽������
-	-E ������ǿ����������ʽ
-	-H ���ƥ�䵽���м��������ļ���
+    sort 对文件中的行排序，默认以ASCII顺序排列
+
+    grep 输出文本中匹配所指定正则表达式的行
+	例：grep -cP 'bot|spider' ./access.log
+	显示 access.log 文件中出现的 bot 或 spider 关键词的行数
+
+	-c 输出匹配到的行数
+	-E 启动更强大的正则表达式
+	-H 输出匹配到的行及所属的文件名
 	-i
-	-l ���ļ����ҵ���һ��ƥ�����ʾ�ļ�����ֹͣ��������
-	-v �����ƥ�����
-	--color ������ʾƥ�䵽������
-    split �з��ļ�
+	-l 在文件中找到第一个匹配后，显示文件名，停止后续查找
+	-v 输出不匹配的行
+	--color 高亮显示匹配到的内容
+    split 切分文件
 	-b
 	-c
-	
-    ͨ���ܵ����ʹ�ù���
-	�ҳ�IP��ÿ��һ��
-	
-	ȥ�ز�ͳ��
-	
-	����
-	
-	ȡǰ10��
+
+    通过管道组合使用工具
+	找出IP，每行一个
+
+	去重并统计
+
+	排序
+
+	取前10个
 	$ cut -d " " -f1 ./access.log | sort | uniq -c | sort -n -r | head -10
 
-5���ܵ�
-    ����Linux����ı�׼���������ͨ���ܵ����ݸ���һ��������Ϊ��׼����
+5、管道
+    所有Linux程序的标准输出都可以通过管道传递给另一个程序作为标准输入
 
-    > ���Ͽ��ض������λ�á�
+    > 符合可重定向输出位置。
 
-    ls -l > ls_output.log ����׼����ض���ls_output.log �ļ�
-    ls -l >> ls_append.log  ����׼�ض���׷�ӵ�ls_output.log �ļ�
-    ls -l 1> ls_output.log 2> ls_error.log ����׼����ض���ls_output.log �ļ�������׼��������ض���ls_error.log �ļ�
+    ls -l > ls_output.log 将标准输出重定向到ls_output.log 文件
+    ls -l >> ls_append.log  将标准重定向追加到ls_output.log 文件
+    ls -l 1> ls_output.log 2> ls_error.log 将标准输出重定向到ls_output.log 文件，将标准错误输出重定向到ls_error.log 文件
 
-    ls -l 1> ls_out.log 2>&1 ����׼����ض���ls_output.log �ļ���Ȼ�󽫱�׼��������ض��򵽺ͱ�׼���ͬ���ĵط�
+    ls -l 1> ls_out.log 2>&1 将标准输出重定向到ls_output.log 文件，然后将标准错误输出重定向到和标准输出同样的地方
 
-    more < xxx.txt �����ض���
+    more < xxx.txt 输入重定向
 
-    $ xxxxx > /dev/null  //�ŵ��ڶ���ɾ���ļ�
+    $ xxxxx > /dev/null  //放到黑洞，删除文件
 
-6��ϵͳ����
-    ps  ��ʾ��ǰ����
-    kill ��ֹĳ����
-    fg ����̨�������ǰ̨
-    crontab �������Զ���ʱ����
+6、系统管理
+    ps  显示当前进程
+    kill 终止某进程
+    fg 将后台任务调到前台
+    crontab 让命令自动定时运行
 
-    netstat �鿴����״̬
-    netstat -alpn �鿴������������״̬������������
-    ifconfig �鿴�������á�ip��ַ��Ϣ
-    iptables :Linux����ǽ
+    netstat 查看网络状态
+    netstat -alpn 查看所以网络连接状态，带进程名称
+    ifconfig 查看网卡配置、ip地址信息
+    iptables :Linux防火墙
 
-    ��1���������
+    （1）常用命令：
 
-    service iptables start ��������
-    iptables -A OUTPUT -d 8.8.8.8 -j DROP ��ֹ����������8.8.8.�����ַ
+    service iptables start 启动服务
+    iptables -A OUTPUT -d 8.8.8.8 -j DROP 禁止服务器访问8.8.8.这个地址
 
-    ��2��top����
+    （2）top命令
 
-����Shell���
-    ͨ�����
-    * �����ַ���
-    ? �����ַ�
-    [abc] a��b��c
-    [^abc] ��(a��b��c)
-    {php,java} php�� java
-    ����ls /etc/cron.{daily.weekly}
+二、Shell编程
+    通配符：
+    * 任意字符串
+    ? 单个字符
+    [abc] a或b或c
+    [^abc] 非(a或b或c)
+    {php,java} php或 java
+    例：ls /etc/cron.{daily.weekly}
 
-1�� ����������
-    $HOME   ��ǰ�û��ļ�Ŀ¼
-    $PATH   ���������б�����ð�ŷָ�
-    $0      shell �ű��ļ���
-    $#      ���ݸ��ű��Ĳ�������
-    $$      shell �ű����̺ţ�PID��������������Ψһ����ʱ�ļ�
-    $PS1    ������ʾ��
-    $PS2    ����������ʾ����һ��Ϊ >
-    $IFS    ������ָ�����ͨ��Ϊ�ո��Ʊ��������з�
-    ���������������صı�����
+1、 环境变量：
+    $HOME   当前用户的家目录
+    $PATH   搜索命令列表，以冒号分隔
+    $0      shell 脚本文件名
+    $#      传递给脚本的参数个数
+    $$      shell 脚本进程号（PID），可用于生成唯一的临时文件
+    $PS1    命令提示符
+    $PS2    二级命令提示符，一般为 >
+    $IFS    输入域分隔符，通常为空格、制表符、换行符
+    参数变量与参数相关的变量：
 
-    $1��$2��... $n    ��n������   
-    $*    ��IFS�ָ������в���
-    $@    �Կո�ָ������в���
-    $#    ��������
+    $1，$2，... $n    第n个参数
+    $*    以IFS分隔的所有参数
+    $@    以空格分隔的所有参数
+    $#    参数个数
 
-2�� �����ж�
-    if test -f foo.php
+2、 条件判断
+    if test -f foo.php   //test 是个命令 -f 和 foo.php 是参数
     then
 	...
     fi
 
-    if [ -f foo.php ]
+    if [ -f foo.php ] //这里的 [ 也是个命令 -f foo.php 是参数。用which [ 命令查看
     then
 	...
     fi
 
-    �ַ����Ƚ�
+    字符串比较
 	string1 = string2
 	string1 != string2
-	-n string �ַ�����Ϊ����Ϊ��
-	-z string �ַ���Ϊnull���գ���Ϊ��
+	-n string 字符串不为空则为真
+	-z string 字符串为null（空）则为真
 
-    test �����Ƚ�
-    expressionl -eq expression2
-    -ne
-    -gt
-    -ge
-    -lt
-    -le
-    ! expression
+    test 算术比较
+    expressionl -eq expression2     =
+    -ne                             !=
+    -gt                             >
+    -ge                             >=
+    -lt                             <
+    -le                             <=
+    ! expression                    !=
 
-    test �ļ�����
-    -d file ����ļ���һ��Ŀ¼��Ϊ��
-    -f �ļ�Ϊ��ͨ�ļ���Ϊ��
-    -e �ļ�������Ϊ��
-    -s �ļ���С��Ϊ0��Ϊ��
-    -r �ļ��ɶ���Ϊ��
-    -w �ļ���д��Ϊ��
-    -x �ļ���ִ����Ϊ��
-3��forѭ��
-    �����г�f��ͷ��.sh��β���ļ�
+    test 文件测试
+    -d file 如果文件是一个目录则为真
+    -f 文件为普通文件则为真
+    -e 文件存在则为真
+    -s 文件大小不为0则为真
+    -r 文件可读则为真
+    -w 文件可写则为真
+    -x 文件可执行则为真
+3、for循环
+    例：列出f开头，.sh结尾的文件
     (1).for file in $(ls f*.sh)
     do
 	echo $file
@@ -161,40 +161,89 @@
     exit 0
 
 
-    for i in {a..z}  //��ӡ��a - z
+    for i in {a..z}  //打印出a - z
     do
 	echo $i
     done
     exit 0
-    
-    (2).while ѭ��
+
+    (2).while 循环
     while conditon
     do
 	...
     done
 
-    (3).until  ѭ��-����ִ��ֱ������Ϊ��
+    (3).until  循环-反复执行直到条件为真
     until condition
     do
 	...
     done
 
-    (4).case ���
+    (4).case 语句
     case variable in
 	pattern ([|pattern ]...) statements ;;
 	pattern ([|pattern ]...) statements ;;
 	...
     esac
 
-4�������б�
+4、命令列表
     statement1 && statement2 && statement3 && ...
-    statement1 || statement2 || statement3 || ...   //��PHP��Ч��һ��
-    (6).����
+    statement1 || statement2 || statement3 || ...   //和PHP的效果一样
+    (6).语句块
     get_confirm && { ... }
-5������
+5、函数
     function_name(){
 	statements
     }
     function_name
 
-    �����ڵ��ú���ǰ��������
+    必须在调用函数前对它定义
+
+
+三、vim使用
+1、使用 vimtutor 命令查看使用教程
+
+四、AWK初体验
+    RS: 记录分隔符  （当RS为空时，awk会自动以多行来做为分割符。）
+    FS：字段分隔符
+
+    awk '{ print }' /etc/passwd   //输出文件每行内容
+    awk -F":" '{ print $1 }' /etc/passwd //  F表示使用 ":" 分隔符字符串。 $1 表示分割后的第一个字段
+    awk -F":" '{ print "username: " $1 "\t\tuid:" $3 }' /etc/passwd  //使输出有  username:$1 /t表示字表符
+
+    BEGIN { FS=":" }
+    { print $1 }
+
+    FS="\t+" 一个或多个TAB分隔
+    FS="[[:space:]+]" #一个或多个空白分隔，默认的
+    FS="(foo|:)" #以 foo或：分隔
+
+    NF ： Number of Fields 字段数量，通常只读
+    NF == 3 { print "字段数为3的行： " $0 }
+    {
+      if ( NF > 2 ) {
+              print $1 " " $2 ":" $3
+      }
+    }
+
+    NR ： Number of Records 记录（行）数量，当前AWK遍历过的行数，动态变化
+    (NR <= 10 ) || (NR >= 100) { print "我们在前10行或第100行之后" }
+    {
+      #跳过前10行
+      if ( NR > 10 ) {
+              print $0
+      }
+    }
+
+    $0	        当前记录（这个变量中存放着整个行的内容）
+    $1~$n	    当前记录的第n个字段，字段间由FS分隔
+    FS	        输入字段分隔符 默认是空格或Tab（一个字段一个字段）
+    NF	        当前记录中的字段个数，就是有多少列
+    NR	        已经读出的记录数，就是行号，从1开始，如果有多个文件话，这个值也是不断累加中。
+    FNR	        当前记录数，与NR不同的是，这个值会是各个文件自己的行号
+    RS	        输入的记录分隔符， 默认为换行符。（一行一行）
+    OFS	        输出字段分隔符， 默认也是空格
+    ORS	        输出的记录分隔符，默认为换行符
+    FILENAME	当前输入文件的名字
+
+awk 'BEGIN{FS="\n";RS="";ORS=""}{for(x=1;x<=NF;x++){print $x"\t"} print "\n"}' ./awkFile

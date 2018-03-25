@@ -1,0 +1,21 @@
+1、Linux中在终端捕获程序的返回值
+
+在程序运行结束后，在终端（shell界面）上输入命令：
+echo  $？
+
+find . -name '*bak' -ok mv {} {} .tmp \;
+
+history -c
+
+cut -d " " -f1 ./access.log | sort | uniq -c | sort -n -r | head -10
+
+grep "\"POST " -n ./access.log | cut -d " " -f7 |sort |uniq -c| sort -nr | head -5
+
+cut -d " " -f1 ./access.log | sort | uniq -c | sort -n -r | head -10 > ip.log //重定向，记录查询出来的数据
+cut -d " " -f1 ./access.log | sort | uniq -c | sort -n -r | head -10 > /dev/null //重定向，不需要记录查询出来的数据
+
+ctrl+z 把前台调到后台
+fg命令调出后台命令
+
+
+sed -e '/^;[ ;]/d;/^$/d;s/upload_max_filesize = 2M/upload_max_filesize = 8M/' ./sedtest | grep upload_max
