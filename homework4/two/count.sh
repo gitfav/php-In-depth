@@ -1,5 +1,9 @@
 #!/bin/sh 
 
+nowdate="`date +%Y%m%d`"
+
+mkdir "changinfo/""$nowdate""/"
+
 for file in ./orgfile/*
 do
     if test -f $file
@@ -25,8 +29,8 @@ do
 	cp "$orgFileName" "$oldFileName"
 	echo "yes"
     fi
-    
-    diff -u $orgFileName $oldFileName > "changinfo/""$filename"".txt"
+  
+    diff -u $orgFileName $oldFileName > "changinfo/""$nowdate""/""$filename"".txt"
      #get change
 
     rm "$oldFileName"
