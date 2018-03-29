@@ -1,0 +1,63 @@
+1、什么是协议
+
+
+2、URL的规范及HTTP交互流程
+    解析域名，获取IP，通过DNS
+    建立TCP连接
+    向服务器发送GET请求
+    返回内容
+
+    断开连接？
+
+    代理服务器
+
+
+3、Fiddler 简介
+
+4、HTTP 请求 01
+    （1）、Request line
+	    GET    		/dir/1.html    HTTP/1.1
+        请求方法 	资源位置		协议版本
+    （2）、HTTP headers
+        通用 header、请求header、实体header
+    （3）、Content
+
+5、请求方法 
+	HTTP/1.1 规范中的8个请求方法：
+
+	1.GET    规定 255 字符 (但大多浏览器支持1M)
+	2.POST   上传文本	（浏览器一般不记录提交内容，比GET相对安全些）
+	3.HEAD
+	4.PUT
+	5.DELETE
+	6.TRACE  诊断
+	7.OPTIONS  查看服务器可以请求的方式
+	8.CONNECT  ssr
+
+6、Request Headers
+
+	Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+	参数为 Content Type
+	q指定优先级[0-1]，0为不接受，默认为1
+	如果不指定 */*，则其他类型优先级为0
+	
+	Accept-Charset:
+		utf-8;q=0.66,*;q=0.6
+	Accept-Encoding: (接受压缩格式)
+		gzip,deflate,sdch 
+	Accept-Language: (语言)
+		zh-CN,zh;q=0.8,eb;q=0.6
+	Authorization:
+		Basic
+	Cookie:
+	Cache-Control: (控制缓存策略)
+	Host:(域名)
+	If-Match:
+	If-Modified-Since
+	If-None-Math:
+	If-Range:
+	If-Unmodified-Since:
+	Range:
+	Referer:
+	Upgrade: 切换http协议(HTTP/2.0)
+	Via:（获取请求的代理服务器）
