@@ -1,0 +1,14 @@
+一、了解WEB安全
+1、安全测试
+    Burpsuite/Fiddler/Charlesproxy
+    Httpfox/Hackbar/User Agent Switcher/Poster
+    Curl
+    Sqlmap
+2、入侵演示
+    DVWA/WebGoatWebGoat
+3、反病毒
+
+4、入侵检测
+
+二、PHP的安全
+官网结束：https://secure.php.net/manual/zh/security.php
