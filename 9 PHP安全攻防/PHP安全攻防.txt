@@ -12,3 +12,20 @@
 
 二、PHP的安全
 官网结束：https://secure.php.net/manual/zh/security.php
+
+1、PHP安全函数
+    addslashes() 函数
+    PDO 参数绑定和参数预处理
+
+    htmlspecialchar()  //转义HTML代码
+
+    加密：
+        md5()
+        sha1()
+
+        mcrypt_encrypt() mcrypt_decrypt()  //可以加减密
+        openssl_encrypt()
+
+三、前端漏洞成因与防范
+
+1、任意重定向漏洞成因、危害和修复方法
