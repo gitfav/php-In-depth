@@ -25,13 +25,13 @@
 5、请求方法 
 	HTTP/1.1 规范中的8个请求方法：
 
-	1.GET    规定 255 字符 (但大多浏览器支持1M)
-	2.POST   上传文本	（浏览器一般不记录提交内容，比GET相对安全些）
-	3.HEAD
+	1.GET       规定 255 字符 (但大多浏览器支持1M)
+	2.POST      上传文本	（浏览器一般不记录提交内容，比GET相对安全些）
+	3.HEAD      只返回头信息
 	4.PUT
 	5.DELETE
-	6.TRACE  诊断
-	7.OPTIONS  查看服务器可以请求的方式
+	6.TRACE     查看经过哪些代理服务器
+	7.OPTIONS   查看服务器可以请求的方式
 	8.CONNECT  ssr
 
 6、Request Headers
@@ -51,6 +51,7 @@
 		Basic
 	Cookie:
 	Cache-Control: (控制缓存策略)
+	    max-age=600,no-cache="Set-Cookie"
 	Host:(域名)
 	If-Match:
 	If-Modified-Since
