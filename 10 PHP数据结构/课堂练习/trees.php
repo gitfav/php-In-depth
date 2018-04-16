@@ -81,24 +81,62 @@ class structData
         //2、如果此节点没有左右节点。直接代替要删除的节点
         //3、如果此节点有右节点。此节点和要删除的节点互换，然后删除要删除的节点
     }
+
+    public static function findVal($obj, $val)
+    {
+        if (empty($obj->head)) {
+            return false;
+        }
+        $nowNode = $obj->head;
+        return self::find($nowNode, $val);
+    }
+
+    /**
+     * AppLication: 找自己及其子树下和$val相同的值
+     * Author: WRJ
+     * @param $node
+     * @param $val
+     * @return null
+     */
+    public static function find($node, $val)
+    {
+        if ($node->data == $val) {
+            return $node;
+        } else if ($node->data > $val) {            //如果大于值，到它的左子数找，左子数也是同样的原理找值
+            if (empty($node->left)) {
+                return NULL;
+            }
+            return self::find($node->left, $val);
+        } else {                                    //如果大于值，到它的右子数找
+            if (empty($node->right)) {
+                return NULL;
+            }
+            return self::find($node->right, $val);
+        }
+    }
 }
 
+//$struct = new structData();
+
+//$node = new node(10);
+//$node2 = new node(12);
+//$node3 = new node(4);
+//$node6 = new node(3);
+//$node4 = new node(2);
+//$node5 = new node(19);
+//structData::add($struct, $node);
+//structData::add($struct, $node2);
+//structData::add($struct, $node3);
+//structData::add($struct, $node4);
+//structData::add($struct, $node5);
+//structData::add($struct, $node6);
+
+$arr = [32, 22, 11, 1231, 12, 564, 774, 54, 9786, 5, 676, 43, 23, 2];
+
 $struct = new structData();
+foreach ($arr as $k => $v) {
+    $node = new node($v);
+    structData::add($struct, $node);
+}
 
-$node = new node(10);
-$node2 = new node(12);
-$node3 = new node(4);
-$node6 = new node(3);
-$node4 = new node(2);
-$node5 = new node(19);
-structData::add($struct, $node);
-structData::add($struct, $node2);
-structData::add($struct, $node3);
-structData::add($struct, $node4);
-structData::add($struct, $node5);
-structData::add($struct, $node6);
-
-var_dump(structData::findAll($struct));
-
-
-//var_dump($struct);
+var_dump(structData::findVal($struct, 9786));
