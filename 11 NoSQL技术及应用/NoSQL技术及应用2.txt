@@ -1,0 +1,35 @@
+一、NoSQL概述
+2、web2.0的NoSQL
+	K-V数据库：Memcache
+	K-V数据库：redis
+	文档数据库：MongoDB（Value值松散）
+	列数据库：Hbase（大数据查询）
+	图数据库：Neo4J(构建关系图谱)
+3、NoSQL适用场景
+	数据模型相对简单
+	需要灵活性更强的架构
+	对数据库性能要求较高
+	不需要严格的数据一致性
+	对于给定key，比较容易映射复杂值
+4、NoSQL安装
+    apt-get install memcached/redis-server/mongodb
+    yum install memcached/redis/mongodb
+    源码安装
+二、Memcached的特点
+
+2、Memcached和Session
+
+
+三、Redis
+1、Redis特点
+    单线程
+    数据结构服务器 （易于处理集合运算）
+    快 （每秒可处理高达10万次SET操作）
+    拥有很多原子操作方法，容易保证数据的一致性
+    兼具临时性和永久性
+    无中心的分布式集群
+2、字符串
+    redis字符串是二进制安全的，这意味着redis可以存储包含任意类型的数据
+3、哈希
+4、列表
+    list类型其实就是一个每个子元素都是string类型的双向链表
