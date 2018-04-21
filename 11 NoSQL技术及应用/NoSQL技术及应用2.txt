@@ -19,6 +19,17 @@
 
 2、Memcached和Session
 
+3、一致性哈希算法
+    https://blog.csdn.net/cywosp/article/details/23397179
+    设置 虚拟节点 来使数据平均分布在不同服务器上
+
+    http://www.cnblogs.com/spritphp/p/7490605.html  //设置虚拟节点算法的例子
+
+4、memcache的缓存命中率：
+    命中率=请求成功数/请求总数
+
+5、memcache lru
+    在内存满了的情况下，把最近最少使用的Key替换掉，然后插入新的Key-Value键值
 
 三、Redis
 1、Redis特点
