@@ -1,0 +1,107 @@
+一、异常处理
+    1、异常写法
+        try {
+            //有错误就抛出去
+        } catch(Exception $e) {
+            //接受异常为Exception类型的错误
+        } finally {
+            //以上没接受错误信息，运行到此次
+        }
+    2、对多种Exception的处理
+        try {
+            throw new GreenException();
+
+            throw new RedException();
+        } catch(GreenException $e) {
+            echo $e->getMessage();
+        } catch(RedException $e) {
+            echo $e->getMessage();
+        }
+
+    3、try中返回值问题
+        * try中 return 后 finally 会继续执行，如果finally中也有return，则最终返回值为finally中return的值。
+        * try中die和exit执行，不会执行finally。
+
+    4、接收PHP抛出的异常
+        使用set_error_handler + ErrorException拦截php默认报错，转为异常
+
+        function myErrorHandler($errno, $errstr, $errfile, $errline) {
+            throw new ErrorException("Exception: " . $error, 0, $errno, $errline);
+        }
+
+        set_error_handler("myErrorHandler");
+    5、set_error_handler只能拦截部分错误。
+        E_ERROR, E_PARSE, E_CORE_ERROR, E_CORE_WARNING, E_COMPILE_ERROR, E_COMPILE_WARNING，是set_error_handler只能拦截部分错误无法拦截的。
+        使用 register_shutdown_function 在代码执行结束前执行的操作。
+二、Trait
+    1、trait（特征）,主要解决单继承引起的代码复用问题;
+    2、在类中使用 trait 类似于 include 一个公用文件;
+    3、trait 支持所有修饰符 final,static, abstract;
+    4、trait 不能通过 new 实例化;
+    5、trait 中的方法冲突可通过 insteadof 或 as 关键字解决。通过 as 还可以修改访问权限;
+
+    例子：
+    trait firstTrait {
+        function firstMethod() { echo "method1"; }
+    }
+
+    trait secondTrait {
+        abstract function secondMethod();
+    }
+
+    trait thirdTrait {
+        use firstTrait; //trait 中可以引用 trait
+        function thirdMethod() { echo "method1"; }
+    }
+
+    class firstClass{
+        use secondTrait,thirdTrait; //一个类可以引用多个trait
+        function secondMethod() {
+            //...
+        }
+    }
+
+    $obj = new firstClass();
+    $obj->firstMethod();
+    $obj->secondMethod();
+    $obj->firstMethod();
+
+    如果有两个trait相同的方法
+    trait firstTrait {
+        function sameMethodName() { echo "method in firstTrait\n"; }
+    }
+    trait secondTrait {
+        function sameMethodName() { echo "method in secondTrait\n"; }
+    }
+
+    class firstClass {
+        use firstTrait,secondTrait {
+            //使用firstTrait中的sameMethodName 代替 secondTrait 中的 sameMethodName。
+            firstTrait::sameMethodName insteadof secondTrait;
+            //使用secondTrait 中的 sameMethodName，但改名 anotherMethodName。
+            secondTrait::sameMethodName as public anotherMethodName;
+        }
+    }
+
+三、预定义接口
+
+四、生成器
+    1、生成器提供了一种更简单的可实现 iterator 同样的功能的方法
+    2、你可以通过生成器逐条 产生（yield） 供foreach遍历的数据，而且不需要事先在内存中建立整个数组。
+    3、生成器像一个函数，但是使用关键词 yield 返回数据。
+
+    function lineGenerator($file) {
+        $fp = fopen($file, 'rb');
+        try{
+            while($line = fgets($fp)){
+                yield $line;    //生成器返回值
+            }
+        } finally {
+            fclose($fp);
+        }
+    }
+
+    $line = lineGenerator("a.log");
+    foreach ($lines as $line) {  //遍历生成器，获取值。这样不用担心内存溢出了。
+        echo $line;
+    }
