@@ -84,6 +84,11 @@
     }
 
 三、预定义接口
+    1、迭代器
+        IteratorAggregate
+        Iterator
+        迭代器主要 接口要继承Traversable，可以使foreach使用，以上两个接口都继承 主要要接口继承Traversable。
+        ArrayIterator 这个迭代器允许在遍历数组和对象时删除和更新值与键
 
 四、生成器
     1、生成器提供了一种更简单的可实现 iterator 同样的功能的方法
@@ -105,3 +110,11 @@
     foreach ($lines as $line) {  //遍历生成器，获取值。这样不用担心内存溢出了。
         echo $line;
     }
+
+
+六、对象
+    1、this指向当前对象。所以不能用于静态方法中。
+    2、self指向所处的类
+    3、接口 （定义功能）
+    4、抽象类 （可以定义一个功能，也可以实现功能。）
+
