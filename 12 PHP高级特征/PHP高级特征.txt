@@ -1,4 +1,4 @@
-一、异常处理
+﻿一、异常处理
     1、异常写法
         try {
             //有错误就抛出去
@@ -84,6 +84,37 @@
     }
 
 三、预定义接口
+    1、IteratorAggregate接口
+        class Language implements IteratorAggregate
+        {
+            private $names;
+
+            public function __construct()
+            {
+                $this->names = explode(',', 'PHP,JS,Java,Go');
+            }
+
+            /**
+             * AppLication: IteratorAggregate中的定义，必须实现，可以
+             * Author: WRJ
+             * @return ArrayIterator|Traversable
+             */
+            public function getIterator()
+            {
+                return new ArrayIterator($this->names);
+
+                //或者
+
+        //        foreach ($this->names as $key => $value) { //和生成器结合使用 ， yield返回的就是一个ArrayIterator类型。
+        //            yield $key => $value;
+        //        }
+            }
+        }
+
+        $langs = new Language();
+        foreach ($langs as $lang) {
+            echo $lang."<br/>";
+        }
     1、迭代器
         IteratorAggregate
         Iterator
@@ -111,6 +142,8 @@
         echo $line;
     }
 
+五、魔术方法
+    __unset();
 
 六、对象
     1、this指向当前对象。所以不能用于静态方法中。
