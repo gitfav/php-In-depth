@@ -1,0 +1,89 @@
+二、策略模式
+    class DataModel {
+        private $write;
+        public function __construct($writer) {
+            $this->write = $write;
+        }
+        public function export() {
+            $data = [
+                'number' => '123',
+                'age' => '23',
+            ];
+            $this->write->write($data);
+        }
+    }
+
+    abstract class Writer {
+        public function __construct($file) {
+            $this->_file = $file;
+        }
+
+        abstract function write($data);
+    }
+
+    class HtmlWriter extends Writer {
+        public function write() {
+            ...
+        }
+    }
+    class SvnWriter extends Writer {
+        public function write() {
+            ...
+        }
+    }
+
+    $ex = new DataModel(new HtmlWriter()); //这样可以根据需要导出不同格式，指定相应的类。
+    $ex->export();
+    $ex = new DataModel(new SvnWriter());
+    $ex->export();
+
+二、观察者模式
+    PHP提供的设计模式类 SplObserver, SplSubject, SplObjectStorage
+    （）
+三、装饰者模式
+    1、动态地给一个对象添加一些额外的职责， 就增加功能来说，装饰模式比派生子类更灵活。
+    abstract class Tile {
+        abstract function getWealthFactor();
+    }
+
+    class Plains extends Tile {
+        private $wealthfactor = 2;
+        function getWealthFactor() {
+            return $this->wealthfactor;
+        }
+    }
+
+    //装饰者
+    abstract class TileDecorator extends Tile {
+        protected $tile;
+        function __construct(Tile $title){
+            $this->tile = $tile;
+        }
+    }
+    class DiamonDecorator extends TileDecorator{
+        function getWealthFactor(){
+            return $this->tile->getWealthFactor() + 2;
+        }
+    }
+    class PollutionDecorator extends TileDecorator{
+        function getWealthFactor(){
+            return $this->tile->getWealthFactor() + 4;
+        }
+    }
+
+    $tile = new Plains();
+    echo $tile->getWealthFactor();
+
+    $tile = new DiamonDecorator(new Plains());
+    echo $tile->getWealthFactor();
+
+    $tile = new PollutionDecorator(new DiamonDecorator(new Plains()));
+    echo $tile->getWealthFactor();
+
+四、单例模式
+    单例模式让类保证它自己仅有一个实例，并提供一个可访问它的全局访问点。
+
+五、适配器模式
+    将一个类的接口转换成客户希望的另一个接口，该模式使得原本由于接口不兼容而不能一起工作的那些类可以一起工作（适合系统和第三方对接或者一个系统要调研旧代码，旧代码需要新新功能。）
+
+五、工厂模式及原型模式
