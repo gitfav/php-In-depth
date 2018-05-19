@@ -1,0 +1,10 @@
+1.查看锁争用情况 show status like 'table_lock%'
+2.查看引擎 show engines;
+3.查看创建表的状况 show create table tablename;
+4.给表(myisam)加锁 lock tables tablename write/read     local
+5.给表(myisam)解锁 unlock tables;
+6.给数据集(innodb 行) 加排他锁/共享锁 select *** for update/lock in share mode
+7.查看当前回话的隔离级别select @@tx_isolation; 
+8.查看系统隔离界别 select @@global.tx_isolation 
+9.设置当前回话隔离级别set session transaction isolation level xxx 
+10.设置系统的隔离级别set global transaction isolation level xxx 

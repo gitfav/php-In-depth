@@ -1,0 +1,35 @@
+二、mysql表存储引擎
+    1、MYISAM存储引擎的锁机制
+        读锁可以被读操作共享,不影响,但读锁会影响写操作.
+        写锁会影响所有的读写操作.
+    2、MyISAM存储引擎有一个系统变量concurrent_insert，专门用以控制其 并发插入 的行为，其值分别可以为0、1或2。
+        a、当concurrent_insert设置为0时，不允许并发插入。
+        b、当concurrent_insert设置为1时，如果MyISAM表中没有空洞（即表的中间没有被删除的行），MyISAM允许在一个进程读表的同时，另一个进程从表尾插入记录。这也是MySQL的默认设置。
+        c、当concurrent_insert设置为2时，无论MyISAM表中有没有空洞，都允许在表尾并发插入记录。
+    3、MyISAM的锁调度
+        由于MySQL认为写请求一般比读请求要重要，所以如果有读写请求同时进行的话，MYSQL将会优先执行写操作。
+
+        我们可以通过一些设置来调节MyISAM的调度行为：
+
+        a、通过指定启动参数low-priority-updates，使MyISAM引擎默认给予读请求以优先的权利。
+        b、通过执行命令SET LOW_PRIORITY_UPDATES=1，使该连接发出的更新请求优先级降低。
+    4、
+
+    5、乐观锁  和  悲观锁
+三、INNODB存储引擎的锁
+    1、INNODB存储引擎的锁
+        从sql语句上来说 update ,delete  会自动给涉及到的数据集加上排他锁 ,而普通的select则不加任何锁!
+
+    2、INNODB存储引擎的事务
+
+        事务的隔离级别有四种
+        非提交读 read uncommitted       没提交， 查找相应数据 数据值变了（脏读）
+        提交读     read committed
+        可重复读 repeatable read (默认)
+        序列化     serializable
+
+        隔离级别	脏读（Dirty Read）	不可重复读（NonRepeatable Read）	幻读（Phantom Read）
+        未提交读（Read uncommitted）	可能	可能	可能
+        已提交读（Read committed）	不可能	可能	可能
+        可重复读（Repeatable read）	不可能	不可能	可能
+        可串行化（Serializable ）	不可能	不可能	不可能
