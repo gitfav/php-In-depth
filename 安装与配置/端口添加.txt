@@ -1,0 +1,8 @@
+防火墙配置：
+vim /etc/sysconfig/iptables  编辑文件
+加入语句：
+-A INPUT -p tcp -m state --state NEW -m tcp --dport 80 -j DROP
+
+service iptables restart  //防火墙重启
+
+netstat -an|grep 80 //检查端口是否开启
