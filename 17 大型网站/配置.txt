@@ -1,0 +1,68 @@
+1、编辑keepalived配置文件（主） /etc/keepalived/keepalived.conf
+####################################################################3
+! Configuration File for keepalived
+
+global_defs {
+	notification_email {
+		phpinside@qq.com
+	}
+	notification_email_from phpinside@qq.com
+	smtp_server smtp.qq.com
+	smtp_connect_timeout 30
+	router_id LVS_DEVEL
+}
+ 
+vrrp_instance VI_1 {
+	state MASTER	#备份服务器上将MASTER改为BACKUP
+	interface eth0
+	virtual_router_id 51
+	mcast_src_ip  192.168.0.17  #selfip
+	priority 100	# 备份服务上将100改为90
+	advert_int 1
+	authentication {
+		auth_type PASS
+		auth_pass 1111
+	}
+	virtual_ipaddress {
+		192.168.0.100    #(如果有多个VIP，继续换行填写.)
+	}
+}
+
+
+2、编辑keepalived配置文件（备） /etc/keepalived/keepalived.conf
+####################################################################
+! Configuration File for keepalived
+
+global_defs {
+	notification_email {
+		phpinside@qq.com
+	}
+	notification_email_from phpinside@qq.com
+	smtp_server smtp.qq.com
+	smtp_connect_timeout 30
+	router_id LVS_DEVEL
+}
+ 
+vrrp_instance VI_1 {
+	state BACKUP	#备份服务器上将MASTER改为BACKUP
+	interface eth0
+	virtual_router_id 51
+	mcast_src_ip  192.168.0.18  #selfip
+	priority 90	# 备份服务上将100改为90
+	advert_int 1
+	authentication {
+		auth_type PASS
+		auth_pass 1111
+	}
+	virtual_ipaddress {
+		192.168.0.100    #(如果有多个VIP，继续换行填写.)
+	}
+}
+
+
+6、启动2台机器上的keepalived
+service keepalived start
+
+tail -f /var/log/messages  #查看 keepalive的日志
+
+ip addr # 查看ip分配情况

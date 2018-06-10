@@ -1,0 +1,49 @@
+0、前置任务，需要启动三个webserver
+scp root@192.168.0.15:/opt/xampp-linux-1.8.3-4-installer.run  /opt
+chmod u+x xampp-linux-1.8.3-4-installer.run
+./xampp-linux-1.8.3-4-installer.run
+
+/opt/lampp/lampp startapache
+#每个webserver的首页要不一样，方便看出来是谁
+
+
+
+1、 安装 nignx
+	
+	#远程拷贝到本地 /opt目录
+	scp root@192.168.0.10:/opt/nginx-1.6.0.tar.gz  /opt  
+
+	./configure 
+	make
+	make insall
+
+2、安装出错，需要安装模块
+
+yum install  -y  pcre-devel
+
+3、配置 /usr/local/nginx/conf/nginx.conf
+
+    upstream backend{
+	#ip_hash;
+	server 192.168.0.14:80;
+	server 192.168.0.15:80;
+	server 192.168.0.16:80;
+    }
+
+        location / {
+	    proxy_redirect off;
+	    proxy_set_header Host $host;
+	    proxy_set_header X-Real-IP $remote_addr;
+	    proxy_set_header X-Forwarded-For  $proxy_add_x_forwarded_for;
+	    proxy_pass http://backend;
+        }
+
+4、启动nginx
+
+/usr/local/nginx/sbin/nginx  -c  /usr/local/nginx/conf/nginx.conf
+
+5、访问nginx的ip  http://192.168.0.17/
+
+发现后台的三个webserver在轮换
+
+

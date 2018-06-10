@@ -1,0 +1,118 @@
+注意： 以下是在CentOS5.10 环境下配置
+
+1、安装依赖库
+yum install -y libnl* popt*
+yum install   kernel-devel
+
+2、下载lvs管理：
+wget http://www.linuxvirtualserver.org/software/kernel-2.6/ipvsadm-1.24.tar.gz
+
+
+3、安装 （只需要在lvs服务端安装，realserver上面不需要）
+
+ln -s /usr/src/kernels/2.6.18-371.el5-xen-i686  /usr/src/linux  #建立软链接
+
+ tar -xvf ipvsadm-1.24.tar.gz
+cd ipvsadm-1.24
+make
+make install
+
+4、运行 ipvsadm
+
+5、查看 是否加载ip_vs模块
+lsmod |grep ip_vs
+
+
+6、查看lvs配置（dr模式） lvs_dr.sh
+###########################################
+RIP1=192.168.0.13
+RIP2=192.168.0.14
+
+VIP1=192.168.0.100
+	
+/etc/rc.d/init.d/functions
+
+case "$1" in
+
+start)
+echo " start LVS of DirectorServer"
+
+# set the Virtual IP Address and sysctl parameter
+/sbin/ifconfig eth0:0 $VIP1 broadcast $VIP1 netmask 255.255.255.0 up
+#/sbin/route add -host $VIP1 dev eth0:0
+echo "1" >/proc/sys/net/ipv4/ip_forward
+
+#Clear IPVS table
+/sbin/ipvsadm -C
+
+#set LVS
+#Web Apache
+/sbin/ipvsadm -A -t $VIP1:80 -s rr
+/sbin/ipvsadm -a -t $VIP1:80 -r $RIP1:80 -g
+/sbin/ipvsadm -a -t $VIP1:80 -r $RIP2:80 -g
+
+
+#Run LVS
+/sbin/ipvsadm
+;;
+stop)
+echo "close LVS Directorserver"
+echo "0" >/proc/sys/net/ipv4/ip_forward
+/sbin/ipvsadm -C
+/sbin/ifconfig eth0:0 down
+
+;;
+*)
+echo "Usage: $0 {start|stop}"
+exit 1
+esac 
+
+
+7、启动lvs服务
+sh lvs_dr.sh start
+
+8、配置 realServer  （lvs_ip.sh）
+############################################
+#############################################
+#!/bin/bash
+VIP=(
+       192.168.0.100 
+)
+
+/etc/rc.d/init.d/functions
+
+case "$1" in
+start)
+        echo "start LVS of REALServer"
+
+        for ((i=0; i<`echo ${#VIP[*]}`; i++))
+        do
+                interface="lo:`echo ${VIP[$i]}|awk -F . '{print $4}'`"
+                /sbin/ifconfig $interface ${VIP[$i]} broadcast ${VIP[$i]} netmask 255.255.255.255 up
+        done
+        echo "1" >/proc/sys/net/ipv4/conf/lo/arp_ignore
+        echo "2" >/proc/sys/net/ipv4/conf/lo/arp_announce
+        echo "1" >/proc/sys/net/ipv4/conf/all/arp_ignore
+        echo "2" >/proc/sys/net/ipv4/conf/all/arp_announce
+        ;;
+stop)
+        for ((i=0; i<`echo ${#VIP[*]}`; i++))
+        do
+                interface="lo:`echo ${VIP[$i]}|awk -F . '{print $4}'`"
+                /sbin/ifconfig $interface down
+        done
+        echo "close LVS Directorserver"
+        #echo "0" >/proc/sys/net/ipv4/conf/lo/arp_ignore
+        #echo "0" >/proc/sys/net/ipv4/conf/lo/arp_announce
+        #echo "0" >/proc/sys/net/ipv4/conf/all/arp_ignore
+        #echo "0" >/proc/sys/net/ipv4/conf/all/arp_announce
+        ;;
+*)
+        echo "Usage: $0 {start|stop}"
+        exit 1
+esac
+
+
+
+9、启动realServer的虚拟ip
+sh lvs_ip.sh start
