@@ -1,0 +1,14 @@
+1、练习：使用标准stdin 常量输入数据 stdout输出
+   题目：第一行输出 "请输入整数",第二行输入参数,第三行输出刚刚输入的参数
+
+   答案：暂未做
+
+2、练习：创建命令行可执行PHP脚本
+
+    题目：Linux下有一个“head”命令。
+    “ head -n  3  test.txt ”就可以打印文件的前3行。
+    “ cat  test.txt | head ”就可以打印文件的前10行。
+    试着编写一个可执行PHP脚本：phphead 来模拟“head” 命令。
+
+    答案：header.php(windows版本)
+	  linux 只要把 #!E:/usr/local/php/bin/php 放到最前面
