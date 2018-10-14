@@ -1,14 +1,14 @@
-1����ϰ��ʹ�ñ�׼stdin ������������ stdout���
-   ��Ŀ����һ����� "����������",�ڶ����������,����������ո�����Ĳ���
+1、练习：使用标准stdin 常量输入数据 stdout输出
+   题目：第一行输出 "请输入整数",第二行输入参数,第三行输出刚刚输入的参数
 
-   �𰸣���δ��
+   答案：暂未做
 
-2����ϰ�����������п�ִ��PHP�ű�
+2、练习：创建命令行可执行PHP脚本
 
-    ��Ŀ��Linux����һ����head�����
-    �� head -n  3  test.txt ���Ϳ��Դ�ӡ�ļ���ǰ3�С�
-    �� cat  test.txt | head ���Ϳ��Դ�ӡ�ļ���ǰ10�С�
-    ���ű�дһ����ִ��PHP�ű���phphead ��ģ�⡰head�� ���
+    题目：Linux下有一个“head”命令。
+    “ head -n  3  test.txt ”就可以打印文件的前3行。
+    “ cat  test.txt | head ”就可以打印文件的前10行。
+    试着编写一个可执行PHP脚本：phphead 来模拟“head” 命令。
 
-    �𰸣�header.php(windows�汾)
-	  linux ֻҪ�� #!E:/usr/local/php/bin/php �ŵ���ǰ��
+    答案：header.php(windows版本)
+	  linux 只要把 #!/usr/local/php/bin/php 放到最前面
