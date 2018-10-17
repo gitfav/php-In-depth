@@ -1,28 +1,28 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * User: jerise
+ * Date: 18-10-17
+ * Time: 下午10:24
+ */
 
-$arr = [1, 2, 3, 4, 6, 7, 8, 9, 10];
+$arr = [1,2,3,4,5,6,7,8,9,10];
 
-function findByBinary($arr, $findNum)
+function binarySearch($arr, $start, $end, $find)
 {
-    $height = count($arr) - 1;
-    $low = 0;
-
-    $num = null;
-
-    while ($low <= $height) {
-        $bin = ceil(($height + $low) / 2);
-        if ($arr[$bin] == $findNum) {
-            $num = $bin;
-            break;
-        }
-        if ($arr[$bin] < $findNum) {
-            $low = $bin+1;
+    while ($start < $end) {
+        $mid = $start + ceil(($end - $start)/2);
+        if($arr[$mid] > $find) {
+            $end = $mid;
+        } else if($arr[$mid] < $find) {
+            $start = $mid;
         } else {
-            $height = $bin-1;
+            return $mid;
         }
     }
 
-    return $num;
+    return false;
 }
 
-var_dump(findByBinary($arr, 10));
+$res = binarySearch($arr, 0, count($arr)-1, 10);
+var_dump($res);
