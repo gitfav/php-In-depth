@@ -40,8 +40,8 @@
 7、文件的打开方式的特殊标记
     （1）、标记（'/t'）可以将\n转换为\r\n（windows）
         $handle = fopen("test.txt","wt");
-    （2）、标记（'/t'）来强制使用二进制模式
-        $handle = fopen("test.txt","rb");
+    （2）、标记（'/b'）来强制使用二进制模式
+        $handle = fopen("test.txt","rb");//防止文本被转换
 8、文件的切割和合并的原理
 
 三、读写二进制文件
