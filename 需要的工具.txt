@@ -1,6 +1,0 @@
-Postman		
-fiddler		HTTP调试抓包工具
-charles		Charles其实是一款代理服务器，通过成为电脑或者浏览器的代理，然后截取请求和请求结果达到分析抓包的目的
-dnsmasq		https://www.seleniumhq.org/   //可以制作自动登录。可用于做测试功能
-
-htmlpurifier  	对需要带html标签内容进行安全过滤。
