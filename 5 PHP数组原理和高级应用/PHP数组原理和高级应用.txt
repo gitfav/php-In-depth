@@ -1,4 +1,4 @@
-一、基础
+﻿一、基础
 1、写法：
 	
 2、定义
@@ -19,7 +19,7 @@
 	· key可以是integer或者string。
 	· value可以是任意类型
 
-	key有如下转换
+	key有如下强制转换
 	· 包含合法整型值的字符串会强制转换成整型
 	· 浮点型和布尔值也会被转成整型
 	· 建名为null的会转换成""
@@ -57,6 +57,14 @@
 	foreach和for性能对比
 	    在遍历过程中要访问数组元素或者对元素进行处理，foreach更快
 	foreach遍历中的顺序
+	    看下面程序的执行结果。
+		$a = array();
+		$a[2] = 3;
+		$a[1] = 2;
+		$a[0] = 1;
+		foreach ($a as $v) {
+			echo $v;
+		}
 	foreach遍历中的引用
 		$arr = array(1,2,3);
 		foreach($arr as &$v){} //$v的值指向了$arr[2]
